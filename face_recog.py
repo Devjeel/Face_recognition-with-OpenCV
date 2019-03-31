@@ -3,6 +3,7 @@ import cv2, os
 import matplotlib.pyplot as plt
 import face_recognition
 
+
 cap = cv2.VideoCapture(0)
 
 def convertToRGB(image):
@@ -13,7 +14,7 @@ known_face_encodings = []
 known_face_names = []
 
 user_appeared = []
-root = "images/"
+root = "./images/"
 for filename in os.listdir(root):
     if filename.endswith('.jpg' or '.png'):
         try:
@@ -42,19 +43,19 @@ while(True):
     ret, frame = cap.read()
 
     # Our operations on the frame come here
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     haar_cascade_face = cv2.CascadeClassifier('data/haarcascades/haarcascade_frontalface_alt2.xml')
 
     # Face detection
-    faces_rects = haar_cascade_face.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5)
+    faces_rects = haar_cascade_face.detectMultiScale(frame, scaleFactor=1.2, minNeighbors=5)
 
     # Let us print the no. of faces found
     print('Faces found: ', len(faces_rects))
 
     # Our next step is to loop over all the co-ordinates it returned and draw rectangles around them using Open CV.We will be drawing a green rectangle with thicknessof 2
     for (x, y, w, h) in faces_rects:
-        cv2.rectangle(gray, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     # Resize frame of video to 1/4 size for faster face recognition processing
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -93,7 +94,6 @@ while(True):
         bottom *= 4
         left *= 4
 
-
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
@@ -103,7 +103,7 @@ while(True):
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
     # Display the resulting frame
-    cv2.imshow('frame', gray)
+    cv2.imshow('frame', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
