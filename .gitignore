@@ -1,5 +1,5 @@
 ﻿#Don't add Images
-images/*
+images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
