@@ -21,7 +21,7 @@ for filename in os.listdir(root):
             print(filename)
             path = os.path.join(root, filename)
             filter_image = face_recognition.load_image_file(path)
-            filter_face_encoding = face_recognition.face_encodings(filter_image)
+            filter_face_encoding = face_recognition.face_encodings(filter_image, num_jitters=20)
             known_face_encodings.append(filter_face_encoding[0])
             known_face_names.append(filename)
 
@@ -98,9 +98,9 @@ while(True):
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
         # Draw a label with a name below the face
-        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-        font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 0), cv2.FILLED)
+        font = cv2.FONT_HERSHEY_COMPLEX
+        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (0, 255, 0), 1)
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
